@@ -45,25 +45,25 @@ public class BorrowServiceImpl extends ServiceImpl<BorrowMapper, Borrow> impleme
         Borrow borrow = new Borrow();
         borrow.setBid(bid);
         borrow.setUid(uid);
-        this.borrowMapper.insert(borrow);
-        Book book = this.bookMapper.selectById(bid);
+        borrowMapper.insert(borrow);
+        Book book = bookMapper.selectById(bid);
         book.setNumber(book.getNumber()-1);
-        this.bookMapper.updateById(book);
+        bookMapper.updateById(book);
     }
 
     @Override
     public List<BorrowVO> borrowList(Integer uid) {
         QueryWrapper<Borrow> borrowQueryWrapper = new QueryWrapper<>();
         borrowQueryWrapper.eq("uid", uid);
-        List<Borrow> borrowList = this.borrowMapper.selectList(borrowQueryWrapper);
+        List<Borrow> borrowList = borrowMapper.selectList(borrowQueryWrapper);
         List<BorrowVO> borrowVOList = new ArrayList<>();
         for (Borrow borrow : borrowList) {
             BorrowVO borrowVO = new BorrowVO();
             BeanUtils.copyProperties(borrow, borrowVO);
-            Book book = this.bookMapper.selectById(borrow.getBid());
+            Book book = bookMapper.selectById(borrow.getBid());
             BeanUtils.copyProperties(book, borrowVO);
             borrowVO.setBookName(book.getName());
-            Sort sort = this.sortMapper.selectById(book.getSid());
+            Sort sort = sortMapper.selectById(book.getSid());
             borrowVO.setSortName(sort.getName());
             borrowVOList.add(borrowVO);
         }
@@ -75,12 +75,12 @@ public class BorrowServiceImpl extends ServiceImpl<BorrowMapper, Borrow> impleme
         QueryWrapper<Borrow> borrowQueryWrapper = new QueryWrapper<>();
         borrowQueryWrapper.eq("uid", uid);
         borrowQueryWrapper.eq("status", 1);
-        List<Borrow> borrowList = this.borrowMapper.selectList(borrowQueryWrapper);
+        List<Borrow> borrowList = borrowMapper.selectList(borrowQueryWrapper);
         List<BorrowVO> borrowVOList = new ArrayList<>();
         for (Borrow borrow : borrowList) {
             BorrowVO borrowVO = new BorrowVO();
             BeanUtils.copyProperties(borrow, borrowVO);
-            Book book = this.bookMapper.selectById(borrow.getBid());
+            Book book = bookMapper.selectById(borrow.getBid());
             BeanUtils.copyProperties(book, borrowVO);
             borrowVO.setId(borrow.getId());
             borrowVO.setBookName(book.getName());
@@ -93,17 +93,17 @@ public class BorrowServiceImpl extends ServiceImpl<BorrowMapper, Borrow> impleme
     public List<AdminBorrowVO> adminBorrowList() {
         QueryWrapper<Borrow> borrowQueryWrapper = new QueryWrapper<>();
         borrowQueryWrapper.eq("status", 0);
-        List<Borrow> borrowList = this.borrowMapper.selectList(borrowQueryWrapper);
+        List<Borrow> borrowList = borrowMapper.selectList(borrowQueryWrapper);
         List<AdminBorrowVO> adminBorrowVOList = new ArrayList<>();
         for (Borrow borrow : borrowList) {
             AdminBorrowVO adminBorrowVO = new AdminBorrowVO();
             BeanUtils.copyProperties(borrow, adminBorrowVO);
-            User user = this.userMapper.selectById(borrow.getUid());
+            User user = userMapper.selectById(borrow.getUid());
             adminBorrowVO.setUserName(user.getUsername());
-            Book book = this.bookMapper.selectById(borrow.getBid());
+            Book book = bookMapper.selectById(borrow.getBid());
             adminBorrowVO.setBookName(book.getName());
             BeanUtils.copyProperties(book, adminBorrowVO);
-            Sort sort = this.sortMapper.selectById(book.getSid());
+            Sort sort = sortMapper.selectById(book.getSid());
             adminBorrowVO.setSortName(sort.getName());
             adminBorrowVO.setId(borrow.getId());
             adminBorrowVOList.add(adminBorrowVO);

@@ -13,10 +13,7 @@ import com.example.lms.vo.PageVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -43,7 +40,7 @@ public class BookController {
 
     @GetMapping("/list/{current}")
     public String list(@PathVariable("current") Integer current, Model model) {
-        PageVO pageVO = bookService.pageList(current);
+        PageVO<BookVO> pageVO = bookService.pageList(current);
         model.addAttribute("page", pageVO);
         model.addAttribute("sortList", sortService.list());
         return "/user/list";

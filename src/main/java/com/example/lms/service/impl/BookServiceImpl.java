@@ -38,7 +38,7 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements Bo
     public PageVO<BookVO> pageList(Integer currentPage) {
         QueryWrapper<Book> bookQueryWrapper = new QueryWrapper<>();
         bookQueryWrapper.gt("number", 0);
-        Page<Book> page = new Page<>(currentPage, 5);
+        Page<Book> page = new Page<>(currentPage, 2);
         Page<Book> resultPage = this.bookMapper.selectPage(page, bookQueryWrapper);
         PageVO<BookVO> pageVO = new PageVO<>();
         pageVO.setCurrentPage(resultPage.getCurrent());

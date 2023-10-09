@@ -31,14 +31,14 @@ public class BorrowController {
     @GetMapping("/add")
     public String add(Integer bookId, HttpSession session){
         User user = (User) session.getAttribute("user");
-        this.borrowService.add(user.getId(), bookId);
+        borrowService.add(user.getId(), bookId);
         return "redirect:/borrow/list";
     }
 
     @GetMapping("/list")
     public String list(HttpSession session, Model model){
         User user = (User) session.getAttribute("user");
-        List<BorrowVO> borrowVOList = this.borrowService.borrowList(user.getId());
+        List<BorrowVO> borrowVOList = borrowService.borrowList(user.getId());
         model.addAttribute("list", borrowVOList);
         return "/user/borrow";
     }
